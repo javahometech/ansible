@@ -1,0 +1,24 @@
+---
+- hosts: 172.31.6.150
+  become: True
+  tasks:
+    - name: Install docker dependencies
+      yum:
+        name: python-pip
+        state: present
+    - name: Install docker-py
+      pip:
+        name: docker-py
+        state: present
+    - name: Install docker
+      yum:
+        name: docker
+        state: present
+    - name: Enable
+      service:
+        name: docker
+        enabled: True
+    - docker_container:
+        name: javahome
+        image: kammana/javahome:1.0
+        interactive: True
